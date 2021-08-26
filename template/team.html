@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+        <!-- Page Header Start -->
+        <div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Meet Our Team</h2>
+                    </div>
+                    <div class="col-12">
+                        <a href="/">Home</a>
+                        <a href="{% url 'team' %}">Team</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Header End -->
+        
+
+        <!-- Team Start -->
+        <div class="team">
+            <div class="container">
+                <div class="section-header text-center">
+                    <p>Our Team</p>
+                    <h2>Our Team Members ({{team_members|length}})</h2>
+                </div>
+                <div class="row">
+                {% for m in team_members %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team-item">
+                            <div class="team-img">
+                                <img src="/media/{{m.image}}" style="height:250px;" alt="Image">
+                                <div class="team-social">
+                                    <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="https://linkedin.com"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                            <div class="team-text">
+                                <h2>{{m.name}}</h2>
+                                <p>{{m.designation}}</p>
+                                <p><small>Member Since: {{m.added_on}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Team End -->
+
+
+{% endblock %}
