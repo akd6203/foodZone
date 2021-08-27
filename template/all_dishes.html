@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header Start -->
+<div class="page-header mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>{% if dish_category %} {{dish_category}} {% else %}Dishes {% endif %}({{dishes|length}})</h2>
+            </div>
+            <div class="col-12">
+                <a href="/">Home</a>
+                <a href="/dishes">Dishes</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+<!-- Food Start -->
+<div class="food mt-0">
+    <div class="container">
+        <div class="row align-items-center">
+        {% for i in dishes %}
+            
+            <div class="col-md-4">
+                {% if i.is_available %}
+                <div class="food-item">
+                {% else %}
+                <div class="food-item" style="background-color: lightgray;">
+                {% endif %}
+                    <a href="/media/{{i.image}}" target="_blank"><img src="/media/{{i.image}}" style="height: 200px;width: 100%;"></a>
+                    <h2 class="my-3">{{i.name}}</h2>
+                    <p>
+                        {{i.details}}
+                    </p>
+                    <p>
+                        <script>
+                            var ing = '{{i.ingredients}}'.split(',');
+                            for(ingredient in ing){
+                                document.write("<span class='btn btn-sm mr-1 mb-1 btn-outline-success'>"+ing[ingredient]+"</span>");
+                            }
+                        </script>
+                    </p>
+                    {% if i.is_available %}
+                    <a href="">Order Now</a>
+                    {% else %}
+                        <p class="text-danger">Not Available for delivery!</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Food End -->
+{% endblock %}
