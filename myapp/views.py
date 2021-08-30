@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from myapp.models import Contact, Dish, Team, Category
+from myapp.models import Contact, Dish, Team, Category, Profile
 from django.http import HttpResponse,JsonResponse
+from django.contrib.auth.models import User
 
 def index(request):
     context ={}
@@ -51,3 +52,34 @@ def all_dishes(request):
 
     context['dishes'] = dishes
     return render(request,'all_dishes.html', context)
+
+def register(request):
+    context={}
+    if request.method=="POST":
+        #fetch data from html form
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('pass')
+        contact = request.POST.get('number')
+        check = User.objects.filter(username=email)
+        if len(check)==0:
+            #Save data to both tables
+            usr = User.objects.create_user(email, email, password)
+            usr.first_name = name
+            usr.save()
+
+            profile = Profile(user=usr, contact_number = contact)
+            profile.save()
+            context['status'] = f"User {name} Registered Successfully!"
+        else:
+            context['error'] = f"A User with this email already exists"
+
+    return render(request,'register.html', context)
+
+def check_user_exists(request):
+    email = request.GET.get('usern')
+    check = User.objects.filter(username=email)
+    if len(check)==0:
+        return JsonResponse({'status':0,'message':'Not Exist'})
+    else:
+        return JsonResponse({'status':1,'message':'A user with this email already exists!'})

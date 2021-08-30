@@ -11,5 +11,7 @@ urlpatterns = [
     path('about/',views.about,name="about"),
     path('team/',views.team_members,name="team"),
     path('dishes/',views.all_dishes,name="all_dishes"),
+    path('register/',views.register,name="register"),
+    path('check_user_exists/',views.check_user_exists,name="check_user_exist"),
 
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

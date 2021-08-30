@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
+<!-- Main css -->
+<link rel="stylesheet" href="/static/auth/css/style.css">
+<style>
+
+    .container{
+        background-color: transparent;
+        width: 90%;
+    }
+    .main .container{
+        background-color: white !important;
+        width: 60%;
+    }
+    .main{
+        padding: 0px;
+        margin: 0px;
+    }
+    .nav-link{
+        color:#666666 !important;
+    }   
+   #signup{
+       background:#719a0a;
+   }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if status %}
+<script>
+    alert('{{status}}');
+</script>
+{% endif %}
+
+{% if error %}
+<script>
+    alert('{{error}}');
+</script>
+{% endif %}
+<div class="main">
+<!-- Sign up form -->
+<section class="signup" style="padding-top:100px;">
+    <div class="container main-container p-0">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Sign up</h2>
+                <form method="POST" class="register-form" action="">
+                    <div id="msz"></div>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="name" id="name" placeholder="Your Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input type="email" name="email" id="email" placeholder="Your Email" required onkeyup="check_email()"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="pass" id="pass" placeholder="Password" onkeyup="checkPass()" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                        <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" onkeyup="checkPass()" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="text" name="number" id="pass" placeholder="Contact Number" pattern="[0-9]{10}" title="Number must contain 10 digits only!" required />
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="/static/auth/images/signup-image.jpg" alt="sing up image"></figure>
+                <a href="" class="signup-image-link">I am already member</a>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function checkPass(){
+        var p = $('#pass').val();
+        var cp = $('#re_pass').val();
+        if(p==cp){
+            $("#signup").attr('disabled',false).css({'background':'#6dabe4'});
+            $('#msz').html('');
+        }else{
+
+            $("#signup").attr('disabled',true).css({'background':'red'});
+            $('#msz').html("<small>Password didn't matched!</small>");
+
+        }
+    }
+
+    function check_email(){
+        var email = document.getElementById('email').value;
+        $.ajax({
+            url:'{% url "check_user_exist" %}',
+            type:'get',
+            data:{usern:email},
+            success:function(data){
+                if(data.status==0){
+                    $("#signup").attr('disabled',false).css({'background':'#719a0a'});
+                    $('#msz').html('');
+                }else{
+                    $("#signup").attr('disabled',true).css({'background':'red'});
+                    $('#msz').html("<small>"+data.message+"</small>");
+
+                }
+            }
+        })
+    }
+</script>
+{% endblock%}

@@ -21,9 +21,9 @@
         <link href="/static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="/static/lib/flaticon/font/flaticon.css" rel="stylesheet">
         <link href="/static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
         <!-- Template Stylesheet -->
         <link href="/static/css/style.css" rel="stylesheet">
+        {% block head %}{% endblock %}
     </head>
 
     <body>
@@ -36,20 +36,23 @@
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                    <div class="navbar-nav ml-auto">
+                    <div class="navbar-nav mx-auto">
                         <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                        <a href="feature.html" class="nav-item nav-link">Feature</a>
                         <a href="{% url 'team' %}" class="nav-item nav-link">Our Team</a>
                         <a href="{% url 'all_dishes' %}" class="nav-item nav-link">Menu</a>
+                        <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                        {% if user.is_authenticated %}
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i></a>
                             <div class="dropdown-menu">
                                 <a href="blog.html" class="dropdown-item">Blog Grid</a>
                                 <a href="single.html" class="dropdown-item">Blog Detail</a>
                             </div>
                         </div>
-                        <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                        {% else %}
+                        <a href="{% url 'register' %}" class="nav-link" ><i class="fas fa-user"></i></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -57,6 +60,7 @@
         <!-- Nav Bar End -->
         
         {% block content %}
+
         {% endblock %}
         <!-- Footer Start -->
         <div class="footer">
@@ -131,5 +135,6 @@
 
         <!-- Template Javascript -->
         <script src="/static/js/main.js"></script>
+        {% block script %}{% endblock %}
     </body>
 </html>

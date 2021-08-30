@@ -168,9 +168,9 @@ a:focus {
     .navbar-light .navbar-nav .nav-link:focus {
         padding: 10px 10px 8px 10px;
         font-family: 'Nunito', sans-serif;
-        color: #ffffff;
         font-size: 18px;
         font-weight: 600;
+        color: #666666 !important
     }
     
     .navbar-light.nav-sticky .navbar-nav .nav-link,
@@ -881,7 +881,6 @@ a:focus {
 }
 
 .menu .menu-tab .nav.nav-pills .nav-link {
-    color: #ffffff;
     background: #fbaf32;
     border-radius: 5px;
     margin: 0 5px;
