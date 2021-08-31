@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block head %}
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <!-- Main css -->
+   <link rel="stylesheet" href="/static/auth/css/style.css">
+<style>
+    .container{
+        background-color: transparent;
+        width: 90%;
+    }
+    .main .container{
+        background-color: white !important;
+        width: 60%;
+    }
+    .main{
+        padding: 0px;
+        margin: 0px;
+    }
+    .nav-link{
+        color:#666666 !important;
+    }   
+   #signin{
+       background:#719a0a;
+   }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="sign-in" style="padding-top:100px;">>
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="/static/auth/images/signin-image.jpg" alt="sing up image"></figure>
+                        <a href="{% url 'register' %}" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign in</h2>
+                        <form method="POST" class="register-form" id="login-form">
+                            {% csrf_token %}
+                            {% if message %}
+                                <div class="form-group">
+                                    <p class="alert {{class}}">{{message}}</p>
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="email" name="email" id="your_name" placeholder="Your Email" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Password" required/>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+
+{% endblock %}

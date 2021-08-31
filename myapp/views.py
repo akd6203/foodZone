@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from myapp.models import Contact, Dish, Team, Category, Profile
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse,JsonResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate, logout
 
 def index(request):
     context ={}
@@ -83,3 +84,50 @@ def check_user_exists(request):
         return JsonResponse({'status':0,'message':'Not Exist'})
     else:
         return JsonResponse({'status':1,'message':'A user with this email already exists!'})
+
+def signin(request):
+    context={}
+    if request.method=="POST":
+        email = request.POST.get('email')
+        passw = request.POST.get('password')
+
+        check_user = authenticate(username=email, password=passw)
+        if check_user:
+            login(request, check_user)
+            if check_user.is_superuser or check_user.is_staff:
+                return HttpResponseRedirect('/admin')
+            return HttpResponseRedirect('/dashboard')
+        else:
+            context.update({'message':'Invalid Login Details!','class':'alert-danger'})
+
+    return render(request,'login.html', context)
+
+def dashboard(request):
+    context={}
+    #fetch login user's details
+    profile = Profile.objects.get(user__id=request.user.id)
+    context['profile'] = profile
+
+    #update profile
+    if "update_profile" in request.POST:
+        print("file=",request.FILES)
+        name = request.POST.get('name')
+        contact = request.POST.get('contact_number')
+        add = request.POST.get('address')
+       
+
+        profile.user.first_name = name 
+        profile.user.save()
+        profile.contact_number = contact 
+        profile.address = add 
+
+        if "profile_pic" in request.FILES:
+            pic = request.FILES['profile_pic']
+            profile.profile_pic = pic
+        profile.save()
+        context['status'] = 'Profile updated successfully!'
+    return render(request, 'dashboard.html', context)
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')

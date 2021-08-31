@@ -23,7 +23,9 @@
         <link href="/static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
         <!-- Template Stylesheet -->
         <link href="/static/css/style.css" rel="stylesheet">
+        
         {% block head %}{% endblock %}
+      
     </head>
 
     <body>
@@ -46,8 +48,8 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i></a>
                             <div class="dropdown-menu">
-                                <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                                <a href="single.html" class="dropdown-item">Blog Detail</a>
+                                <a href="{% url 'dashboard' %}" class="dropdown-item">Dashboard</a>
+                                <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
                             </div>
                         </div>
                         {% else %}

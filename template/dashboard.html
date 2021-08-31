@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block head %}
+
+<style>
+    .nav-link{
+        color:#666666 !important;
+    } 
+    .mu-header, nav,header{
+        background-color: black !important;
+    }
+    .dash-content{
+        border:1px solid lightgray;
+        margin:40px 0px;
+    }
+    .dash-content .pic{
+        background-color: gray;
+        color: white;
+        display: inline-block;
+        height: 100px;width: 100px;
+        border-radius: 50%;
+        margin: 30px 0px;
+        font-size: 30px;
+        text-align: center;
+        line-height: 100px;
+        box-shadow: 0px 0px 10px gray;
+    }
+    .container{
+        width: 80%;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+{% if status %}
+<script>
+    alert("{{status}}");
+</script>
+{% endif %}
+
+<!-- Start Contact -->
+<section id="mu-contact" style="padding-top:100px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-contact-area">
+                    <div class="mu-heading-area text-center">
+                        <h2 class="mu-heading-title" style="margin-top: 30px;">Welcome To Dashboard</h2>
+                        <span class="mu-header-dot"></span>
+                    </div>
+
+                    <!-- Start Contact Content -->
+                    <div class="mu-contact-content">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a href="#dash" class="nav-link" data-toggle="tab">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#edit" class="nav-link" data-toggle="tab">Edit Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#cpass" class="nav-link" data-toggle="tab">Change Password</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#orders" class="nav-link" data-toggle="tab">My Orders
+                                    <span class="badge">{{orders|length}}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'logout' %}" class="nav-link" >Logout</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane container-fluid active" id="dash">
+                                <div class="row">
+                                    <div class="col-md-12 text-center dash-content">
+                                        {% if profile.profile_pic %}
+                                        <a href="/media/{{profile.profile_pic}}"><img src="/media/{{profile.profile_pic}}" alt="" class="pic"></a>
+                                        {% else %}
+                                        <span class='pic'>{{profile.user.first_name.0}}</span>
+                                        {% endif %}
+                   
+                                        <p>{{user.first_name}}</p>
+                                        <p><em>{{user.email}}</em></p>
+                                        <p><strong>Contact: </strong>{{profile.contact_number}}</p>
+                                        <p><strong>Member Since: </strong>{{user.date_joined}}</p>
+                                        <p><strong>Last Login: </strong>{{user.last_login}}</p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="edit">
+                                <div id="form-messages"></div>
+                                <div class="card p-5">
+                                    <form method="post" class="mu-contact-form" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="form-group">                
+                                            <input type="text" class="form-control" placeholder="Name" id="name" name="name" value="{{profile.user.first_name}}" required>
+                                        </div>
+                                        <div class="form-group">                
+                                            <input type="email" class="form-control" placeholder="Enter Email" id="email" name="email" value="{{profile.user.email}}" readonly required>
+                                        </div>              
+                                        <div class="form-group">
+                                            <input type="text" class="form-control"  name="contact_number" placeholder="Contact Number" pattern="[0-9]{10}" value="{{profile.contact_number}}" title="Number must contain 10 digits only!" required />
+                                        </div>             
+                                        <div class="form-group">
+                                            <textarea class="form-control" placeholder="Address" id="address" name="address" >{{profile.address}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Change Profile Picture</label>
+                                            <input type="file" class="form-control" name="profile_pic">
+                                        </div>
+                                        <button type="submit" name="update_profile" style="width: 100%;" class="btn  custom-btn" ><span>Save Changes</span></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane " id="cpass">
+                                <h1  style="margin:50px auto;">Change Password</h1>
+                               
+                            </div>
+                            <div class="tab-pane " id="orders">
+                             <h1>Order History</h1>
+                            </div>
+
+                        </div>
+
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Contact -->
+
+{% endblock %}
