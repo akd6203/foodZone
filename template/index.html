@@ -260,7 +260,7 @@
                                             <img src="/media/{{item.image}}" alt="Image">
                                         </div>
                                         <div class="menu-text">
-                                            <h3><span>{{item.name}}</span> 
+                                            <h3><span><a href="{% url 'dish' id=item.id %}">{{item.name}}</a></span> 
                                                 {% if item.price != item.discounted_price %}
                                                  <strong><del>&dollar;{{item.price}}</del></strong>
                                                 {% endif %}

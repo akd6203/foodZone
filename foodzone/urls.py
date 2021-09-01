@@ -16,4 +16,5 @@ urlpatterns = [
     path('login/', views.signin, name='login'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', views.user_logout, name='logout'),
+    path('dish/<int:id>/', views.single_dish, name='dish'),
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

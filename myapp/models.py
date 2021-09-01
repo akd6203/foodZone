@@ -69,3 +69,17 @@ class Profile(models.Model):
 
     class Meta:
         verbose_name_plural="Profile Table"
+
+class Order(models.Model):
+    customer = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    item = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    invoice_id = models.CharField(max_length=100, blank=True)
+    payer_id = models.CharField(max_length=100, blank=True)
+    ordered_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.customer.user.first_name
+
+    class Meta:
+        verbose_name_plural = "Order Table"

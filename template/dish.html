@@ -5,51 +5,47 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>{% if dish_category %} {{dish_category}} {% else %}Dishes {% endif %}({{dishes|length}})</h2>
+                <h2>{{dish.name}}</h2>
             </div>
             <div class="col-12">
-                <a href="/">Home</a>
-                <a href="/dishes">Dishes</a>
+                <a href="/dishes/?q={{dish.category.id}}">{{dish.category.name}}</a>
             </div>
         </div>
     </div>
 </div>
 <!-- Page Header End -->
 
-
 <!-- Food Start -->
 <div class="food mt-0">
     <div class="container">
         <div class="row align-items-center">
-        {% for i in dishes %}
-            
-            <div class="col-md-4">
-                {% if i.is_available %}
+            <div class="col-md-6 mx-auto">
                 <div class="food-item">
-                {% else %}
-                <div class="food-item" style="background-color: lightgray;">
-                {% endif %}
-                    <a href="/media/{{i.image}}" target="_blank"><img src="/media/{{i.image}}" style="height: 200px;width: 100%;"></a>
-                    <h2 class="my-3">{{i.name}}</h2>
+                   
+                    <a href="/media/{{dish.image}}" target="_blank"><img src="/media/{{dish.image}}" style="height: 300px;width: 100%;"></a>
+                    <h2 class="my-3">{{dish.name}}</h2>
                     <p>
-                        {{i.details}}
+                        {{dish.details}}
                     </p>
                     <p>
                         <script>
-                            var ing = '{{i.ingredients}}'.split(',');
+                            var ing = '{{dish.ingredients}}'.split(',');
                             for(ingredient in ing){
                                 document.write("<span class='btn btn-sm mr-1 mb-1 btn-outline-success'>"+ing[ingredient]+"</span>");
                             }
                         </script>
                     </p>
-                    {% if i.is_available %}
-                    <a href="{% url 'dish' id=i.id %}">Order Now</a>
+                    {% if dish.is_available %}
+                    <form action="" class="my-4">
+                        {{form.render}}
+                    </form>
                     {% else %}
                         <p class="text-danger">Not Available for delivery!</p>
                     {% endif %}
+
+                    <a href="/dishes/?q={{dish.category.id}}">More Dishes under {{dish.category.name}}</a>
                 </div>
             </div>
-        {% endfor %}
         </div>
     </div>
 </div>

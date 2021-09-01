@@ -114,7 +114,29 @@
                                 </div>
                             </div>
                             <div class="tab-pane " id="cpass">
-                                <h1  style="margin:50px auto;">Change Password</h1>
+                                <div class="card p-5">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label>Current Password</label>
+                                            <input type="password" class="form-control" name="current_password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <div id="msz"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New Password</label>
+                                            <input type="password" class="form-control" name="new_password" id="pass" onkeyup="checkPass()" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Repeat New Password</label>
+                                            <input type="password" class="form-control" name="r_new_password" id="re_pass" onkeyup="checkPass()" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" class="btn custom-btn" id="change_pass" name="change_pass" value="Change Password">
+                                        </div>
+                                    </form>
+                                </div>
                                
                             </div>
                             <div class="tab-pane " id="orders">
@@ -132,4 +154,21 @@
 </section>
 <!-- End Contact -->
 
+{% endblock %}
+{% block script %}
+<script>
+    function checkPass(){
+        var p = $('#pass').val();
+        var cp = $('#re_pass').val();
+        if(p==cp){
+            $("#change_pass").attr('disabled',false).css({'background':'#fbaf32'});
+            $('#msz').html('');
+        }else{
+
+            $("#change_pass").attr('disabled',true).css({'background':'red'});
+            $('#msz').html("<small>Password didn't matched!</small>");
+
+        }
+    }
+</script>
 {% endblock %}

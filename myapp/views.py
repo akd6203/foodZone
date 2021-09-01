@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from myapp.models import Contact, Dish, Team, Category, Profile
 from django.http import HttpResponse,JsonResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from paypal.standard.forms import PayPalPaymentsForm
 
 def index(request):
     context ={}
@@ -104,6 +105,7 @@ def signin(request):
 
 def dashboard(request):
     context={}
+    login_user = get_object_or_404(User, id = request.user.id)
     #fetch login user's details
     profile = Profile.objects.get(user__id=request.user.id)
     context['profile'] = profile
@@ -126,8 +128,31 @@ def dashboard(request):
             profile.profile_pic = pic
         profile.save()
         context['status'] = 'Profile updated successfully!'
+    
+    #Change Password 
+    if "change_pass" in request.POST:
+        c_password = request.POST.get('current_password')
+        n_password = request.POST.get('new_password')
+
+        check = login_user.check_password(c_password)
+        if check==True:
+            login_user.set_password(n_password)
+            login_user.save()
+            login(request, login_user)
+            context['status'] = 'Password Updated Successfully!' 
+        else:
+            context['status'] = 'Current Password Incorrect!'
     return render(request, 'dashboard.html', context)
 
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+def single_dish(request, id):
+    context={}
+    dish = get_object_or_404(Dish, id=id)
+
+    form = PayPalPaymentsForm()
+    context.update({'dish':dish, 'form':form})
+
+    return render(request,'dish.html', context)
