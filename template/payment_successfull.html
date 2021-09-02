@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+    .nav-link{
+        color:#666666 !important;
+    } 
+    .mu-header, nav,header{
+        background-color: black !important;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<section style="padding-top:100px;">
+
+            <div style="width:50%;margin:50px auto;">
+                <div style="text-align: center;">
+                    <img src="/static/img/success.gif" style="height: 350px;">
+                    <h2 style="margin-bottom: 60px;">Payment Successfull!</h2>
+                    <a href="/dashboard" class="mu-send-msg-btn" >Click Here to Visit Profile</a>
+
+                </div>
+            
+</section>
+{% endblock %}

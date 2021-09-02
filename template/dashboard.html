@@ -62,7 +62,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#orders" class="nav-link" data-toggle="tab">My Orders
-                                    <span class="badge">{{orders|length}}</span>
+                                    <span class="badge badge-success badge-pill">({{orders|length}})</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -140,7 +140,34 @@
                                
                             </div>
                             <div class="tab-pane " id="orders">
-                             <h1>Order History</h1>
+                             <h4 class="text-center my-2">Order History</h4>
+
+                             <ul class="list-group">
+                                {% for order in orders %}
+                                <a href="{% url 'dish' id=order.item.id %}">
+                                    <li class="list-group-item list-group-item-action">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="/media/{{order.item.image}}" style="height:70px" class="rounded">
+                                            </div>
+                                             <div class="col-md-8">
+                                                <h4>{{order.item.name}}</h4>
+                                                <p>&dollar; {{order.item.discounted_price}}</p>
+                                                <p class="my-0"><small>INVOICE ID: {{order.invoice_id}}</small></p>
+                                                <p class="font-italic"><small>{{order.ordered_on}}</small></p>
+                                             </div>  
+                                             <div class="col-md-2">
+                                                 {% if order.status == True %}
+                                                    <button class="btn btn-success btn-sm">Completed</button>
+                                                 {% else %}
+                                                 <button class="btn btn-danger btn-sm">Cancelled</button>
+                                                 {% endif %}
+                                             </div>
+                                        </div>
+                                    </li>
+                                    </a>
+                                {% endfor %}
+                             </ul>
                             </div>
 
                         </div>

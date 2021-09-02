@@ -27,6 +27,12 @@
                     <p>
                         {{dish.details}}
                     </p>
+                    <h4 class="menu-text" style="font-weight: normal;">
+                        {% if dish.price != dish.discounted_price %}
+                            <strong><del>&dollar;{{dish.price}}</del></strong>
+                        {% endif %}
+                            <strong>&dollar;{{dish.discounted_price}}</strong>
+                    </h4>
                     <p>
                         <script>
                             var ing = '{{dish.ingredients}}'.split(',');
@@ -36,9 +42,13 @@
                         </script>
                     </p>
                     {% if dish.is_available %}
-                    <form action="" class="my-4">
+
+                    {% if user.is_superuser or user.is_staff %}
+                    {% elif user.is_active%}
                         {{form.render}}
-                    </form>
+                    {% else %}
+                        <p><a href="{% url 'login' %}">Login to Buy</a> </p>
+                    {% endif %}
                     {% else %}
                         <p class="text-danger">Not Available for delivery!</p>
                     {% endif %}

@@ -124,3 +124,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 PAYPAL_RECEIVER_EMAIL = 'sts.amandeepkaur@gmail.com'
 PAYPAL_TEST = True
+
+HOST = '127.0.0.1:8000'
